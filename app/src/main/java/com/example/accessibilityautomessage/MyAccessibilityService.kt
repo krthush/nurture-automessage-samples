@@ -21,6 +21,14 @@ class MyAccessibilityService : AccessibilityService() {
         }
         val rootInActiveWindow = AccessibilityNodeInfoCompat.wrap(rootInActiveWindow)
 
+        if (event.eventType == TYPE_VIEW_CLICKED) {
+            val clipBoardManager = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            // Creates a new text clip to put on the clipboard
+            val clip: ClipData = ClipData.newPlainText("simple text", event.toString())
+            // Set the clipboard's primary clip.
+            clipBoardManager.setPrimaryClip(clip)
+        }
+
         if (rootInActiveWindow != null && rootInActiveWindow.packageName != null && rootInActiveWindow.packageName == "com.facebook.orca") {
 
             Thread.sleep(500)
