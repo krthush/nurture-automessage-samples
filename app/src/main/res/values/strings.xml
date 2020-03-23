@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Nurture Accessibility Automessage</string>
+    <string name="accessibility_service_label">Nurture Accessibility Service Label</string>
+    <string name="accessibility_service_description">Nurture Accessibility Service Description</string>
+    <string name="sample_message">Test message</string>
+    <string name="automessage_suffix">sent by Nurture</string>
+    <string name="whatsapp_phone_number">447472508476</string>
+    <string name="fb_profile_uri">fb://messaging/1378504324</string>
+</resources>

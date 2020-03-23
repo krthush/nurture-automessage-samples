@@ -1,0 +1,2 @@
+rootProject.name='AccessibilityAutomessage'
+include ':app'
