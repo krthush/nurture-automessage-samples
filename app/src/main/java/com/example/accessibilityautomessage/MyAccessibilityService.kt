@@ -5,8 +5,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED
+import android.view.accessibility.AccessibilityEvent.*
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.annotation.RequiresApi
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -21,15 +23,15 @@ class MyAccessibilityService : AccessibilityService() {
         }
         val rootInActiveWindow = AccessibilityNodeInfoCompat.wrap(rootInActiveWindow)
 
-        if (event.eventType == TYPE_VIEW_CLICKED) {
-            val clipBoardManager = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-            // Creates a new text clip to put on the clipboard
-            val clip: ClipData = ClipData.newPlainText("simple text", event.toString())
-            // Set the clipboard's primary clip.
-            clipBoardManager.setPrimaryClip(clip)
-        }
-
         if (rootInActiveWindow != null && rootInActiveWindow.packageName != null && rootInActiveWindow.packageName == "com.facebook.orca") {
+
+            if (event.eventType == TYPE_VIEW_TEXT_CHANGED && event.source != null && event.source.className != null && event.source.className == "android.widget.EditText") {
+                Log.i("nurturelogs", event.toString())
+                Log.i("nurturelogs", rootInActiveWindow.getChild(0).getChild(1).toString())
+                if (rootInActiveWindow.getChild(0).getChild(1).contentDescription.toString().contains("Stephen")) {
+                    Log.i("nurturelogs", "Talking to Stephen")
+                }
+            }
 
             Thread.sleep(500)
 
@@ -56,6 +58,14 @@ class MyAccessibilityService : AccessibilityService() {
             }
 
         } else if (rootInActiveWindow != null && rootInActiveWindow.packageName != null && rootInActiveWindow.packageName == "com.whatsapp") {
+
+            if (event.eventType == TYPE_VIEW_TEXT_CHANGED && event.source != null && event.source.viewIdResourceName != null && event.source.viewIdResourceName == "com.whatsapp:id/entry") {
+                Log.i("nurturelogs", event.toString())
+                Log.i("nurturelogs", rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.whatsapp:id/conversation_contact_name").toString())
+                if (rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.whatsapp:id/conversation_contact_name")[0].text == "Stephen") {
+                    Log.i("nurturelogs", "Talking to Stephen")
+                }
+            }
 
             // Whatsapp Message EditText id
             val messageNodeList = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.whatsapp:id/entry")
@@ -88,6 +98,7 @@ class MyAccessibilityService : AccessibilityService() {
                 }
 
             }
+
         }
 
         return
