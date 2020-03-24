@@ -23,13 +23,13 @@ class MyAccessibilityService : AccessibilityService() {
 
         if (rootInActiveWindow != null && rootInActiveWindow.packageName != null && rootInActiveWindow.packageName == "com.facebook.orca") {
 
-            Thread.sleep(500)
-
             val clipBoardManager = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val copiedString = clipBoardManager.primaryClip?.getItemAt(0)?.text?.toString()
 
             // So that service doesn't process any message, but the ones ending your apps suffix
             if (!copiedString.isNullOrBlank() && copiedString.endsWith(applicationContext.getString(R.string.automessage_suffix))) {
+
+                Thread.sleep(500)
 
                 // Messenger Message EditText
                 val editTextNode: AccessibilityNodeInfoCompat? = findNodeInfosByClassName(rootInActiveWindow, "android.widget.EditText")
